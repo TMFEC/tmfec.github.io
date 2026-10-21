@@ -28,6 +28,9 @@ const PAGES = [
   ["courses.html", "nav.courses", "courses"]
 ];
 const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0]; // Monday first
+// Sent with each registration. The Sheet script rejects anything older than its MIN_CLIENT,
+// so an old saved copy of the page (without the screenshot check) can't register anyone.
+const CLIENT_VERSION = "2026-10-22e";
 
 let lang = "ms";
 let courseTab = "active";
@@ -606,10 +609,17 @@ async function submitRegistration(form) {
       gender: data.gender, prior: data.prior, notes: [(data.notes || "").trim(), autoNote].filter(Boolean).join(" "), lang,
       payerName: (data.payerName || "").trim(),
       autoVerified: course.fee > 0 && check.ran && check.ok, // screenshot showed amount + own reference + recent date
+      clientVersion: CLIENT_VERSION,
       screenshot: file ? await compressImage(file) : ""
     };
     const res = await fetch(CONFIG.registrationEndpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
     const out = await res.json();
+    if (!out.ok && out.error === "OUTDATED") { // this page is an old saved copy: reload the current one
+      btn.disabled = false; btn.textContent = f.submit;
+      showError(f.outdated);
+      setTimeout(() => location.reload(), 2500);
+      return;
+    }
     if (!out.ok) throw new Error(out.error || "failed");
 
     const ics = out.duplicate ? null : icsFor(course);
