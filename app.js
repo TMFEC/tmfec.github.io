@@ -605,6 +605,7 @@ async function submitRegistration(form) {
       name: data.name.trim(), phone: data.phone.trim(), email: data.email.trim(),
       gender: data.gender, prior: data.prior, notes: [(data.notes || "").trim(), autoNote].filter(Boolean).join(" "), lang,
       payerName: (data.payerName || "").trim(),
+      autoVerified: course.fee > 0 && check.ran && check.ok, // screenshot showed amount + own reference + recent date
       screenshot: file ? await compressImage(file) : ""
     };
     const res = await fetch(CONFIG.registrationEndpoint, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
@@ -612,12 +613,13 @@ async function submitRegistration(form) {
     if (!out.ok) throw new Error(out.error || "failed");
 
     const ics = out.duplicate ? null : icsFor(course);
+    const confirmed = !out.duplicate && out.payment === "Dibayar";
     form.innerHTML = `<div class="reg-done">
-      <div class="reg-tick pending">${out.duplicate ? ICONS.check : ICONS.clock}</div>
-      <h2>${out.duplicate ? f.dupTitle : f.okTitle}</h2>
-      <p>${esc(out.duplicate ? f.dupBody(out.ref) : f.okBody(out.ref))}</p>
+      <div class="reg-tick ${confirmed || out.duplicate ? "" : "pending"}">${confirmed || out.duplicate ? ICONS.check : ICONS.clock}</div>
+      <h2>${out.duplicate ? f.dupTitle : confirmed ? f.successTitle : f.okTitle}</h2>
+      <p>${esc(out.duplicate ? f.dupBody(out.ref) : confirmed ? f.successBody(out.ref) : f.okBody(out.ref))}</p>
       ${out.duplicate ? "" : `<p class="muted small">${esc(f.okEmail(payload.email))}</p>`}
-      ${out.duplicate ? "" : `<p class="pay-reminder">${esc(f.okVerify)}</p>`}
+      ${out.duplicate || confirmed ? "" : `<p class="pay-reminder">${esc(f.okVerify)}</p>`}
       <div class="reg-done-actions">
         ${ics ? `<a class="btn btn-gold" href="${ics}" download="${course.id}.ics">${ICONS.calendar}${f.addCal}</a>` : ""}
         <button type="button" class="btn btn-outline" data-close>${f.close}</button>
