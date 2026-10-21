@@ -516,7 +516,7 @@ async function submitRegistration(form) {
 
     const ics = out.duplicate ? null : icsFor(course);
     form.innerHTML = `<div class="reg-done">
-      <div class="reg-tick">${ICONS.check}</div>
+      <div class="reg-tick pending">${out.duplicate ? ICONS.check : ICONS.clock}</div>
       <h2>${out.duplicate ? f.dupTitle : f.okTitle}</h2>
       <p>${esc(out.duplicate ? f.dupBody(out.ref) : f.okBody(out.ref))}</p>
       ${out.duplicate ? "" : `<p class="muted small">${esc(f.okEmail(payload.email))}</p>`}

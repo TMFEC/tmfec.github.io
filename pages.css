@@ -104,6 +104,7 @@ a.pillar { text-decoration: none; color: inherit; display: block; }
 .reg-done { text-align: center; padding: 20px 6px; }
 .reg-tick { width: 64px; height: 64px; border-radius: 50%; background: var(--green); color: #fff; display: grid; place-items: center; margin: 0 auto 16px; }
 .reg-tick svg { width: 32px; height: 32px; }
+.reg-tick.pending { background: var(--gold); color: var(--green-900); }
 
 .status.free { background: var(--green); color: #fff; }
 
