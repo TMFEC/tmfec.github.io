@@ -491,12 +491,36 @@ function loadScript(src) {
   });
 }
 
-// Returns { ran, ok }. ran = false when the text reader couldn't load (e.g. offline):
-// the registration then goes through as pending and is checked by hand as usual.
+// draw any image the browser can open (incl. iPhone HEIC photos in Safari) onto a canvas,
+// so the text reader always gets a standard image
+function fileToCanvas(file, maxSide = 2200) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxSide / Math.max(img.width, img.height));
+      const cv = document.createElement("canvas");
+      cv.width = Math.round(img.width * scale); cv.height = Math.round(img.height * scale);
+      const g = cv.getContext("2d");
+      g.fillStyle = "#fff"; g.fillRect(0, 0, cv.width, cv.height);
+      g.drawImage(img, 0, 0, cv.width, cv.height);
+      URL.revokeObjectURL(img.src);
+      resolve(cv);
+    };
+    img.onerror = () => reject(new Error("image could not be opened"));
+    img.src = URL.createObjectURL(file);
+  });
+}
+
+// Returns { ran, ok }. Fails closed: if the screenshot can't be read (ran = false),
+// the registration is NOT sent and the person is asked to try again.
 async function checkScreenshot(file, fee, ref) {
   try {
     if (!window.Tesseract) await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js");
-    const { data } = await Tesseract.recognize(file, "eng");
+    const canvas = await fileToCanvas(file);
+    const { data } = await Promise.race([
+      Tesseract.recognize(canvas, "eng"),
+      new Promise((_, reject) => setTimeout(() => reject(new Error("timeout")), 60000))
+    ]);
     const text = data.text.toUpperCase().replace(/\s+/g, " ");
     const squashed = text.replace(/[^A-Z0-9]/g, "");
     const amt = Number(fee).toFixed(2).replace(".", "\\.");
@@ -511,12 +535,12 @@ async function checkScreenshot(file, fee, ref) {
     const dateOk = !dates.length || dates.some(d => d <= today && (today - d) / 864e5 <= 3);
     return { ran: true, ok: amountOk && refOk && dateOk, amountOk, refOk, dateOk };
   } catch (e) {
-    console.warn("TMFEC: screenshot check unavailable", e);
-    return { ran: false, ok: true };
+    console.warn("TMFEC: screenshot could not be checked", e);
+    return { ran: false, ok: false };
   }
 }
 
-function showRegFail(form, fee) {
+function showRegFail(form, fee, couldNotRead) {
   const f = t("form");
   form.hidden = true;
   const panel = document.createElement("div");
@@ -524,7 +548,7 @@ function showRegFail(form, fee) {
   panel.innerHTML = `
     <div class="reg-tick fail">×</div>
     <h2>${f.failTitle}</h2>
-    <p>${esc(f.failBody(fee))}</p>
+    <p>${esc(couldNotRead ? f.failUnread : f.failBody(fee))}</p>
     <ul class="fail-tips">${f.failTips.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
     <div class="reg-done-actions">
       <button type="button" class="btn btn-primary" data-retry>${f.retry}</button>
@@ -571,10 +595,10 @@ async function submitRegistration(form) {
     if (course.fee > 0) {
       btn.textContent = f.checking;
       check = await checkScreenshot(file, course.fee, regRef);
-      if (!check.ok) return showRegFail(form, course.fee);
+      if (!check.ok) return showRegFail(form, course.fee, !check.ran);
     }
     btn.textContent = f.sending;
-    const autoNote = course.fee > 0 ? (check.ran ? "[Semakan auto tangkapan skrin: lulus]" : "[Semakan auto tangkapan skrin: tidak dapat dijalankan]") : "";
+    const autoNote = course.fee > 0 ? "[Semakan auto tangkapan skrin: lulus]" : "";
     const payload = {
       ref: regRef, courseId: course.id, courseTitle: course.title.ms,
       dates: course.dates || [], time: L(course.time), venue: course.venue || "", fee: course.fee || 0,
