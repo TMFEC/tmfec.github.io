@@ -501,11 +501,15 @@ async function checkScreenshot(file, fee, ref) {
     const squashed = text.replace(/[^A-Z0-9]/g, "");
     const amt = Number(fee).toFixed(2).replace(".", "\\.");
     const amountOk = new RegExp(`(?:SGD|S\\$|\\$)\\s*${fee}(?:\\.00)?(?!\\d)|(?<![\\d.])${amt}(?!\\d)`).test(text);
-    const refOk = squashed.includes(ref.replace(/[^A-Z0-9]/g, "")) || squashed.includes(ref.slice(-4));
-    const proxy = String(CONFIG.paynow?.proxy || "").replace(/\D/g, "");
-    const payeeOk = proxy.length >= 4 && squashed.includes(proxy.slice(-4));
-    const transferOk = /SUCCESS|BERJAYA|SENT|COMPLETED|TRANSFERRED|PAID|PAYNOW|TRANSACTION|RECEIPT/.test(text);
-    return { ran: true, ok: amountOk && (refOk || payeeOk || transferOk) };
+    // the QR puts this person's own reference in the "bill reference number", which DBS prints on the receipt
+    const refOk = squashed.includes(ref.replace(/[^A-Z0-9]/g, "")) || (squashed.includes("TMF") && squashed.includes(ref.slice(-4)));
+    // reject old receipts: if a date is printed, it must be within the last 3 days
+    const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+    const dates = [...text.matchAll(/(\d{1,2})\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*\.?,?\s+(\d{4})/g)]
+      .map(m => new Date(Number(m[3]), months.indexOf(m[2]), Number(m[1])));
+    const today = sgToday();
+    const dateOk = !dates.length || dates.some(d => d <= today && (today - d) / 864e5 <= 3);
+    return { ran: true, ok: amountOk && refOk && dateOk, amountOk, refOk, dateOk };
   } catch (e) {
     console.warn("TMFEC: screenshot check unavailable", e);
     return { ran: false, ok: true };
