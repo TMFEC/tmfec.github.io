@@ -481,6 +481,67 @@ function icsFor(c) {
   return URL.createObjectURL(new Blob([text], { type: "text/calendar" }));
 }
 
+/* ---- screenshot check: read the text in the image and look for signs of a real PayNow transfer ---- */
+
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const s = document.createElement("script");
+    s.src = src; s.onload = resolve; s.onerror = reject;
+    document.head.appendChild(s);
+  });
+}
+
+// Returns { ran, ok }. ran = false when the text reader couldn't load (e.g. offline):
+// the registration then goes through as pending and is checked by hand as usual.
+async function checkScreenshot(file, fee, ref) {
+  try {
+    if (!window.Tesseract) await loadScript("https://cdn.jsdelivr.net/npm/tesseract.js@5.1.1/dist/tesseract.min.js");
+    const { data } = await Tesseract.recognize(file, "eng");
+    const text = data.text.toUpperCase().replace(/\s+/g, " ");
+    const squashed = text.replace(/[^A-Z0-9]/g, "");
+    const amt = Number(fee).toFixed(2).replace(".", "\\.");
+    const amountOk = new RegExp(`(?:SGD|S\\$|\\$)\\s*${fee}(?:\\.00)?(?!\\d)|(?<![\\d.])${amt}(?!\\d)`).test(text);
+    const refOk = squashed.includes(ref.replace(/[^A-Z0-9]/g, "")) || squashed.includes(ref.slice(-4));
+    const proxy = String(CONFIG.paynow?.proxy || "").replace(/\D/g, "");
+    const payeeOk = proxy.length >= 4 && squashed.includes(proxy.slice(-4));
+    const transferOk = /SUCCESS|BERJAYA|SENT|COMPLETED|TRANSFERRED|PAID|PAYNOW|TRANSACTION|RECEIPT/.test(text);
+    return { ran: true, ok: amountOk && (refOk || payeeOk || transferOk) };
+  } catch (e) {
+    console.warn("TMFEC: screenshot check unavailable", e);
+    return { ran: false, ok: true };
+  }
+}
+
+function showRegFail(form, fee) {
+  const f = t("form");
+  form.hidden = true;
+  const panel = document.createElement("div");
+  panel.className = "reg-done reg-fail";
+  panel.innerHTML = `
+    <div class="reg-tick fail">×</div>
+    <h2>${f.failTitle}</h2>
+    <p>${esc(f.failBody(fee))}</p>
+    <ul class="fail-tips">${f.failTips.map(x => `<li>${esc(x)}</li>`).join("")}</ul>
+    <div class="reg-done-actions">
+      <button type="button" class="btn btn-primary" data-retry>${f.retry}</button>
+      <button type="button" class="btn btn-outline" data-close>${f.close}</button>
+    </div>`;
+  form.after(panel);
+}
+
+function retryRegistration() {
+  const panel = $("#regDialog .reg-fail");
+  const form = $("#regForm");
+  if (!panel || !form) return;
+  panel.remove();
+  form.hidden = false;
+  form.screenshot.value = "";
+  $("#shotName").textContent = "";
+  const btn = form.querySelector(".reg-submit");
+  btn.disabled = false; btn.textContent = t("form").submit;
+  form.querySelector("#payBlock")?.scrollIntoView({ block: "center" });
+}
+
 async function submitRegistration(form) {
   const f = t("form");
   const err = $("#regError");
@@ -499,14 +560,22 @@ async function submitRegistration(form) {
 
   const course = COURSES.find(c => c.id === data.course);
   const btn = form.querySelector(".reg-submit");
-  btn.disabled = true; btn.textContent = f.sending;
+  btn.disabled = true;
   try {
     const file = form.screenshot?.files[0];
+    let check = { ran: false, ok: true };
+    if (course.fee > 0) {
+      btn.textContent = f.checking;
+      check = await checkScreenshot(file, course.fee, regRef);
+      if (!check.ok) return showRegFail(form, course.fee);
+    }
+    btn.textContent = f.sending;
+    const autoNote = course.fee > 0 ? (check.ran ? "[Semakan auto tangkapan skrin: lulus]" : "[Semakan auto tangkapan skrin: tidak dapat dijalankan]") : "";
     const payload = {
       ref: regRef, courseId: course.id, courseTitle: course.title.ms,
       dates: course.dates || [], time: L(course.time), venue: course.venue || "", fee: course.fee || 0,
       name: data.name.trim(), phone: data.phone.trim(), email: data.email.trim(),
-      gender: data.gender, prior: data.prior, notes: (data.notes || "").trim(), lang,
+      gender: data.gender, prior: data.prior, notes: [(data.notes || "").trim(), autoNote].filter(Boolean).join(" "), lang,
       payerName: (data.payerName || "").trim(),
       screenshot: file ? await compressImage(file) : ""
     };
@@ -560,6 +629,7 @@ document.addEventListener("click", e => {
   const reg = e.target.closest("[data-register]");
   if (reg) { openRegistration(reg.dataset.register); return; }
   if (e.target.closest("[data-close]")) { $("#regDialog")?.close(); return; }
+  if (e.target.closest("[data-retry]")) { retryRegistration(); return; }
 
   const tabBtn = e.target.closest("#courseTabs button");
   if (tabBtn) { courseTab = tabBtn.dataset.tab; renderCourses(); return; }
