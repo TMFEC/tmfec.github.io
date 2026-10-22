@@ -145,6 +145,11 @@ a.pillar { text-decoration: none; color: inherit; display: block; }
 .upload-name { font-size: .88rem; color: var(--muted); word-break: break-all; }
 .pay-note { margin: 0; }
 .pay-reminder { background: #fff4d6; border-left: 4px solid var(--gold); padding: 10px 14px; border-radius: 8px; text-align: left; }
+.wa-join { margin: 18px auto 0; padding: 16px 18px; background: #e8f8ee; border: 1.5px solid #25d366; border-radius: 14px; max-width: 440px; }
+.wa-join p { margin: 0 0 12px; color: var(--green-900); font-weight: 600; }
+.btn-wa { background: #25d366; color: #fff; }
+.btn-wa:hover { background: #1fb457; }
+.btn-wa svg { width: 20px; height: 20px; }
 .reg-done-actions { display: flex; gap: 10px; justify-content: center; flex-wrap: wrap; margin-top: 18px; }
 .reg-done-actions svg { width: 18px; height: 18px; }
 

@@ -629,6 +629,11 @@ async function submitRegistration(form) {
       <h2>${out.duplicate ? f.dupTitle : confirmed ? f.successTitle : f.okTitle}</h2>
       <p>${esc(out.duplicate ? f.dupBody(out.ref, out.when) : confirmed ? f.successBody(out.ref) : f.okBody(out.ref))}</p>
       ${out.duplicate ? `<p class="pay-reminder">${esc(f.dupPaid)}</p>` : ""}
+      ${confirmed && /^https:\/\/chat\.whatsapp\.com\//.test(out.groupLink || "") ? `
+        <div class="wa-join">
+          <p>${esc(f.groupIntro)}</p>
+          <a class="btn btn-wa" href="${esc(out.groupLink)}" target="_blank" rel="noopener">${ICONS.whatsapp}${f.groupJoin}</a>
+        </div>` : ""}
       ${out.duplicate ? "" : `<p class="muted small">${esc(f.okEmail(payload.email))}</p>`}
       ${out.duplicate || confirmed ? "" : `<p class="pay-reminder">${esc(f.okVerify)}</p>`}
       <div class="reg-done-actions">
