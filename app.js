@@ -30,7 +30,7 @@ const PAGES = [
 const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0]; // Monday first
 // Sent with each registration. The Sheet script rejects anything older than its MIN_CLIENT,
 // so an old saved copy of the page (without the screenshot check) can't register anyone.
-const CLIENT_VERSION = "2026-10-22e";
+const CLIENT_VERSION = "2026-10-23a";
 
 let lang = "ms";
 let courseTab = "active";
@@ -530,13 +530,17 @@ async function checkScreenshot(file, fee, ref) {
     const amountOk = new RegExp(`(?:SGD|S\\$|\\$)\\s*${fee}(?:\\.00)?(?!\\d)|(?<![\\d.])${amt}(?!\\d)`).test(text);
     // the QR puts this person's own reference in the "bill reference number", which DBS prints on the receipt
     const refOk = squashed.includes(ref.replace(/[^A-Z0-9]/g, "")) || (squashed.includes("TMF") && squashed.includes(ref.slice(-4)));
-    // reject old receipts: if a date is printed, it must be within the last 3 days
+    // a real bank receipt must show a transfer date from today or yesterday (no date = not a receipt)
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
     const dates = [...text.matchAll(/(\d{1,2})\s+(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*\.?,?\s+(\d{4})/g)]
       .map(m => new Date(Number(m[3]), months.indexOf(m[2]), Number(m[1])));
     const today = sgToday();
-    const dateOk = !dates.length || dates.some(d => d <= today && (today - d) / 864e5 <= 3);
-    return { ran: true, ok: amountOk && refOk && dateOk, amountOk, refOk, dateOk };
+    const dateOk = dates.some(d => d <= today && (today - d) / 864e5 <= 1);
+    // ...and say the transfer went through
+    const doneOk = /SUCCESSFUL|SUCCESS|BERJAYA|COMPLETED|TRANSFERRED|\bSENT\b|YOU SEND|YOU SENT|PAID/.test(text);
+    // a screenshot of our own payment box (shows $80 + the reference, but no payment was made) is not proof
+    const ourPage = /BAYARAN MELALUI PAYNOW|IMBAS DENGAN APLIKASI|MASUKKAN DALAM PAYNOW|PAY VIA PAYNOW|SCAN WITH YOUR BANKING|ENTER THIS IN PAYNOW|TANGKAPAN SKRIN|NAMA PADA AKAUN/.test(text);
+    return { ran: true, ok: amountOk && refOk && dateOk && doneOk && !ourPage, amountOk, refOk, dateOk, doneOk, ourPage };
   } catch (e) {
     console.warn("TMFEC: screenshot could not be checked", e);
     return { ran: false, ok: false };
