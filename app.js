@@ -625,9 +625,10 @@ async function submitRegistration(form) {
     const ics = out.duplicate ? null : icsFor(course);
     const confirmed = !out.duplicate && out.payment === "Dibayar";
     form.innerHTML = `<div class="reg-done">
-      <div class="reg-tick ${confirmed || out.duplicate ? "" : "pending"}">${confirmed || out.duplicate ? ICONS.check : ICONS.clock}</div>
+      <div class="reg-tick ${confirmed ? "" : "pending"}">${confirmed ? ICONS.check : out.duplicate ? "!" : ICONS.clock}</div>
       <h2>${out.duplicate ? f.dupTitle : confirmed ? f.successTitle : f.okTitle}</h2>
-      <p>${esc(out.duplicate ? f.dupBody(out.ref) : confirmed ? f.successBody(out.ref) : f.okBody(out.ref))}</p>
+      <p>${esc(out.duplicate ? f.dupBody(out.ref, out.when) : confirmed ? f.successBody(out.ref) : f.okBody(out.ref))}</p>
+      ${out.duplicate ? `<p class="pay-reminder">${esc(f.dupPaid)}</p>` : ""}
       ${out.duplicate ? "" : `<p class="muted small">${esc(f.okEmail(payload.email))}</p>`}
       ${out.duplicate || confirmed ? "" : `<p class="pay-reminder">${esc(f.okVerify)}</p>`}
       <div class="reg-done-actions">
