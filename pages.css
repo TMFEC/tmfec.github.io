@@ -2,6 +2,12 @@
 .main-nav a.current { color: var(--green); font-weight: 700; }
 .main-nav a.current::after { transform: scaleX(1); }
 
+/* home hero: logo arch on the left, text on the right (on phones the arch stays on top) */
+@media (min-width: 981px) {
+  .hero-inner { grid-template-columns: 1fr 1.25fr; }
+  .hero-visual { order: -1; }
+}
+
 .page-hero { position: relative; overflow: hidden; padding: 64px 0 52px; background: linear-gradient(180deg, var(--cream) 0%, var(--cream-2) 100%); border-bottom: 1px solid var(--line); }
 .page-hero .wrap { position: relative; }
 .page-hero h1 { font-size: clamp(2.3rem, 5vw, 3.4rem); max-width: 18em; }
