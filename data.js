@@ -34,6 +34,7 @@ const SUBJECTS = {
 
 /* Timetable rows */
 const SLOTS = {
+  pagi:    { ms: "9:30 pagi",       en: "9:30 am" },
   maghrib: { ms: "Selepas Maghrib", en: "After Maghrib" },
   isyak:   { ms: "Selepas Isyak",   en: "After Isyak" }
 };
@@ -46,6 +47,24 @@ const CLASSES = [
     title: { ms: "Kuliah Ilmu Fiqh", en: "Fiqh Lecture" },
     kitab: { ms: "Kitab al-Risalah al-Jami'ah — al-Habib Ahmad Zain al-Habsyi", en: "Al-Risalah al-Jami'ah — al-Habib Ahmad Zain al-Habsyi" },
     venue: "Masjid Malabar", address: "471 Victoria St, Singapore 198370"
+  },
+  {
+    subject: "tasawwuf", day: 2, slot: "pagi", frequency: "weekly",
+    title: { ms: "Kuliah Ilmu Tasawwuf", en: "Tasawwuf Lecture" },
+    kitab: { ms: "Kitab Risalah al-Mu'awanah — Imam al-Haddad", en: "Risalat al-Mu'awanah — Imam al-Haddad" },
+    venue: "Masjid Istiqamah", address: ""
+  },
+  {
+    subject: "tasawwuf", day: 2, slot: "maghrib", frequency: "weekly",
+    title: { ms: "Kuliah Ilmu Tasawwuf", en: "Tasawwuf Lecture" },
+    kitab: { ms: "Kitab Siyarus Salikin (Juz 4) — Syeikh Abdul Samad al-Palimbani", en: "Siyar al-Salikin (Vol. 4) — Syeikh Abdul Samad al-Palimbani" },
+    venue: "Masjid Mydin", address: ""
+  },
+  {
+    subject: "tasawwuf", day: 2, slot: "isyak", frequency: "weekly",
+    title: { ms: "Kuliah Ilmu Tasawwuf", en: "Tasawwuf Lecture" },
+    kitab: { ms: "Kitab Kurnia Rabbani Limpahan Rahmani", en: "Kurnia Rabbani Limpahan Rahmani" },
+    venue: "Masjid Kassim", address: ""
   },
   {
     subject: "tasawwuf", day: 6, slot: "maghrib", frequency: "weekly",
