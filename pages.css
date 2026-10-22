@@ -2,6 +2,10 @@
 .main-nav a.current { color: var(--green); font-weight: 700; }
 .main-nav a.current::after { transform: scaleX(1); }
 
+/* home hero: Bismillah centred on its own line at the very top, on laptop and phone */
+.hero-bismillah { position: relative; display: block; text-align: center; font-size: 2.1rem; line-height: 1.6; margin: 0 0 28px; }
+@media (max-width: 640px) { .hero-bismillah { font-size: 1.7rem; margin-bottom: 18px; } }
+
 /* home hero: logo arch on the left, text on the right (on phones the arch stays on top) */
 @media (min-width: 981px) {
   .hero-inner { grid-template-columns: 1fr 1.25fr; }
