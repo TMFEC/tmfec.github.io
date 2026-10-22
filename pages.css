@@ -157,6 +157,8 @@ a.pillar { text-decoration: none; color: inherit; display: block; }
   .ttm-day.today .ttm-name { background: var(--green); }
   .ttm-list { display: grid; gap: 10px; padding: 12px; }
   .ttm-time { display: block; font-size: .8rem; font-weight: 600; color: var(--gold-600); margin-bottom: 4px; }
+  .ttm-item .tt-class { height: auto; } /* cards stack under their time label instead of filling the slot */
+  .ttm-item + .ttm-item { margin-top: 6px; }
   .paths { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
