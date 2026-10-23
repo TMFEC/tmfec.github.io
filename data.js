@@ -99,8 +99,7 @@ const COURSES = [
     desc: { ms: "Kesinambungan pengajian Tanwirul Qulub karangan Syeikh Muhammad Amin al-Kurdi bagi peserta yang telah menamatkan Bab Ketuhanan.",
             en: "The continuation of Tanwir al-Qulub by Syeikh Muhammad Amin al-Kurdi, for students who have completed the chapter on Divinity." },
     dates: ["2026-11-15", "2026-11-22", "2026-11-29"],
-    // TODO: add the class time, e.g. start: "15:00", end: "17:30", to switch on the "Add to calendar" button
-    time: { ms: "Ahad · masa akan dimaklumkan", en: "Sundays · time to be confirmed" },
+    time: { ms: "Ahad, 3:00 – 5:00 ptg", en: "Sundays, 3:00 – 5:00 pm" }, start: "15:00", end: "17:00",
     venue: "Masjid Abdul Aleem Siddique", address: "90 Lorong K Telok Kurau, Singapore 425723",
     fee: 80, feeNote: { ms: "3 sesi, termasuk buku", en: "3 sessions, book included" },
     arabic: "تنوير القلوب"
