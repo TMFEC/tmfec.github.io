@@ -268,3 +268,9 @@ a.pillar { text-decoration: none; color: inherit; display: block; }
 .btn-ghost-link:hover { border-color: #b3261e; }
 .btn-ghost-link svg { width: 18px; height: 18px; }
 @media (max-width: 980px) { .class-actions { flex-direction: row; flex-wrap: wrap; } }
+
+/* WhatsApp contact: small round logo only (label kept for screen readers) */
+.wa-fab { width: 56px; height: 56px; padding: 0; justify-content: center; gap: 0; }
+.wa-fab span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.wa-fab svg { width: 30px; height: 30px; }
+@media (max-width: 640px) { .wa-fab { width: 52px; height: 52px; padding: 0; } }
