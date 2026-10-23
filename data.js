@@ -181,12 +181,20 @@ const WHY = [
    Add new posters to assets/fawaid/ and a new entry at the TOP of this list. */
 const FAWAID = [
   {
-    title: { ms: "Jadual Surah Bacaan al-Habib 'Abdullah al-Haddad dalam Solat", en: "Surahs Recited by al-Habib 'Abdullah al-Haddad in Prayer" },
-    source: { ms: "Petikan fawaid: Bidayah al-Hidayah · Masjid Hajjah Fatimah", en: "From the Bidayah al-Hidayah class · Masjid Hajjah Fatimah" },
+    title: { ms: "Halusnya Penyakit Riya'", en: "The Subtlety of Riya' (Showing Off)" },
+    source: { ms: "Kuliah Tasawwuf: Kitab Kurnia Rabbani Limpahan Rahmani · Masjid Kassim", en: "Tasawwuf class: Kurnia Rabbani Limpahan Rahmani · Masjid Kassim" },
+    date: "2026-10-13", subject: "tasawwuf",
+    summary: { ms: "Syirik itu lebih tersembunyi dalam kalangan umat daripada rayapan semut hitam di atas batu pejal pada malam yang gelap-gelita. Kata Imam al-Fudhail bin 'Iyadh r.h: meninggalkan amal kerana manusia itu riya', beramal kerana manusia itu syirik, dan ikhlas ialah Allah memeliharamu daripada kedua-duanya.",
+               en: "Shirk is more hidden among the ummah than a black ant crawling on a hard rock on a pitch-dark night. Imam al-Fudhail ibn 'Iyadh r.h said: leaving a deed for people's sake is riya', doing it for people is shirk, and sincerity is that Allah protects you from both." },
+    images: ["assets/fawaid/riya-halusnya.jpg", "assets/fawaid/riya-hadis-semut.jpg", "assets/fawaid/riya-fudhail.jpg", "assets/fawaid/kassim-cover.jpg"]
+  },
+  {
+    title: { ms: "Bacaan Surah dalam Solat Fardhu & Jadual Surah al-Habib 'Abdullah al-Haddad", en: "Surah Recitation in the Obligatory Prayers & al-Habib 'Abdullah al-Haddad's Surah Table" },
+    source: { ms: "Kuliah Tasawwuf: Kitab Bidayah al-Hidayah · Masjid Hajjah Fatimah", en: "Tasawwuf class: Bidayah al-Hidayah · Masjid Hajjah Fatimah" },
     date: "2026-10-02", subject: "tasawwuf",
-    summary: { ms: "Surah-surah yang dibaca oleh al-Habib 'Abdullah al-Haddad dalam solat Subuh, Maghrib dan Isyak bagi setiap hari dalam seminggu.",
-               en: "The surahs al-Habib 'Abdullah al-Haddad recited in the Subuh, Maghrib and Isyak prayers for each day of the week." },
-    images: ["assets/fawaid/surah-haddad-1.jpg", "assets/fawaid/surah-haddad-2.jpg"]
+    summary: { ms: "Sunnah memanjangkan bacaan Subuh dan Zuhur, meringankan Asar, membaca surah pendek al-Mufassal ketika Maghrib dan pertengahan ketika Isyak; erti al-Mufassal dan pembahagiannya; serta surah-surah yang dibaca oleh al-Habib 'Abdullah al-Haddad bagi setiap hari.",
+               en: "The sunnah of long recitation at Subuh and Zuhur, lighter at Asar, short surahs of al-Mufassal at Maghrib and middle ones at Isyak; what al-Mufassal means and its divisions; and the surahs al-Habib 'Abdullah al-Haddad recited each day." },
+    images: ["assets/fawaid/surah-sunnah-bacaan.jpg", "assets/fawaid/surah-mufassal.jpg", "assets/fawaid/surah-haddad-1.jpg", "assets/fawaid/surah-haddad-2.jpg", "assets/fawaid/hajjah-fatimah-cover.jpg"]
   },
   {
     title: { ms: "Syariat, Tarekat & Hakikat", en: "Shari'ah, Tariqah & Haqiqah" },
@@ -197,12 +205,36 @@ const FAWAID = [
     images: ["assets/fawaid/syariat-infografik.jpg", "assets/fawaid/syariat-arab.jpg", "assets/fawaid/syariat-terjemahan.jpg", "assets/fawaid/malabar-cover.jpg"]
   },
   {
+    title: { ms: "Fadhilat Menuntut Ilmu", en: "The Virtue of Seeking Knowledge" },
+    source: { ms: "Kuliah Fiqh: Kitab al-Risalah al-Jami'ah · Masjid Malabar", en: "Fiqh class: al-Risalah al-Jami'ah · Masjid Malabar" },
+    date: "", subject: "fiqh",
+    summary: { ms: "Barangsiapa menempuh jalan menuntut ilmu: (1) dipermudahkan jalannya ke syurga, (2) para malaikat menebarkan sayap untuknya, dan (3) seorang 'alim didoakan istighfar oleh segala makhluk, hingga ikan-ikan di lautan. [H.R Abu Daud 3643 & Ibn Majah 228]",
+               en: "Whoever takes a path seeking knowledge: (1) their way to Paradise is made easy, (2) the angels lower their wings for them, and (3) all creation, even the fish in the sea, seek forgiveness for the scholar. [Abu Dawud 3643 & Ibn Majah 228]" },
+    images: ["assets/fawaid/ilmu-infografik.jpg", "assets/fawaid/ilmu-hadis.jpg", "assets/fawaid/malabar-cover.jpg"]
+  },
+  {
+    title: { ms: "Fadhilat Berselawat ke atas Nabi ﷺ", en: "The Virtue of Sending Salawat upon the Prophet ﷺ" },
+    source: { ms: "Petikan Kitab al-Qaul al-Badi' karangan Imam as-Sakhawi", en: "From al-Qawl al-Badi' by Imam al-Sakhawi" },
+    date: "", subject: "tasawwuf",
+    summary: { ms: "\"Barangsiapa berselawat ke atasku sekali, nescaya Allah berselawat ke atasnya sepuluh kali\" (H.R Muslim). Kata Imam al-Fakihani r.h: puncak cita-cita orang terdahulu dan terkemudian ialah memperoleh satu selawat daripada Allah, maka bagaimana pula sepuluh kali?",
+               en: "\"Whoever sends salawat upon me once, Allah sends salawat upon them ten times\" (Muslim). Imam al-Fakihani r.h said: the highest hope of all people is to receive one salawat from Allah — so what of ten?" },
+    images: ["assets/fawaid/selawat-fadhilat.jpg", "assets/fawaid/selawat-hadis-10kali.jpg", "assets/fawaid/selawat-fakihani-1.jpg", "assets/fawaid/selawat-fakihani-2.jpg"]
+  },
+  {
     title: { ms: "Perbanyakkan Selawat pada Hari Jumaat", en: "Send Abundant Salawat on Friday" },
     source: { ms: "Salam Jumaat", en: "Jumu'ah greetings" },
     date: "", subject: "tasawwuf",
     summary: { ms: "Hadis riwayat Abu Mas'ud al-Ansari r.a: tiadalah seseorang berselawat ke atas Nabi ﷺ pada hari Jumaat melainkan diperhadapkan kepada Baginda akan selawatnya.",
                en: "Hadith of Abu Mas'ud al-Ansari r.a: no one sends salawat upon the Prophet ﷺ on Friday except that it is presented to him." },
     images: ["assets/fawaid/jumaat-hadis-terjemahan.jpg", "assets/fawaid/jumaat-hadis-arab.jpg", "assets/fawaid/jumaat-salam.jpg", "assets/fawaid/jumaat-selawat.jpg"]
+  },
+  {
+    title: { ms: "Memahami Hakikat Ikhlas", en: "Understanding True Sincerity (Ikhlas)" },
+    source: { ms: "Imam al-Ghazali r.h, Ihya' 'Ulumiddin", en: "Imam al-Ghazali r.h, Ihya' 'Ulum al-Din" },
+    date: "", subject: "tasawwuf",
+    summary: { ms: "Sesuatu yang bersih daripada segala campuran dinamakan khalis; dan perbuatan yang telah dibersihkan serta dimurnikan itu dinamakan ikhlas.",
+               en: "Something purified of every mixture is called khalis; and a deed that has been cleansed and purified is called ikhlas." },
+    images: ["assets/fawaid/ikhlas-hakikat.jpg"]
   }
 ];
 
