@@ -16,7 +16,10 @@ const CONFIG = {
   // person with the amount and their reference number already filled in.
   //   proxyType: "uen" (business account) or "mobile" (personal account)
   //   proxy:     the UEN, e.g. "T12AB3456C", or the mobile number, e.g. "91234567"
-  paynow: { proxyType: "mobile", proxy: "84559430", name: "TM Fouzy Education Centre", qrImage: "" },
+  //   receiverName: the name the student's bank app shows for this PayNow number (shown as a safety check)
+  paynow: { proxyType: "mobile", proxy: "84559430", name: "TM Fouzy Education Centre", receiverName: "", qrImage: "" },
+  // WhatsApp number for enquiries (floating button on every page). 8-digit Singapore number.
+  contactWhatsApp: "84559430",
   // Social links. Buttons with an empty link are hidden.
   whatsappCommunity: "",
   instagram: "",
@@ -88,14 +91,15 @@ const CLASSES = [
    id must be unique — it is saved with each registration. */
 const COURSES = [
   {
-    id: "tanwir-nubuwwat-2026-11", marhalah: 5, subject: "tauhid", status: "open",
+    id: "tanwir-nubuwwat-2026-11", marhalah: 5, subject: "tauhid",
     title: { ms: "Kursus Tanwirul Qulub Bahagian 2: Kenabian (Nubuwwat)", en: "Tanwir al-Qulub Part 2: Prophethood (Nubuwwat)" },
     desc: { ms: "Kesinambungan pengajian Tanwirul Qulub karangan Syeikh Muhammad Amin al-Kurdi bagi peserta yang telah menamatkan Bab Ketuhanan.",
             en: "The continuation of Tanwir al-Qulub by Syeikh Muhammad Amin al-Kurdi, for students who have completed the chapter on Divinity." },
-    // TODO: when the dates are fixed, add dates: ["2026-11-.."], start: "15:00", end: "17:30" to switch on calendar + reminder emails
-    time: { ms: "November 2026 · tarikh, masa & tempat akan dimaklumkan", en: "November 2026 · dates, time & venue to be confirmed" },
+    dates: ["2026-11-15", "2026-11-22", "2026-11-29"],
+    // TODO: add the class time, e.g. start: "15:00", end: "17:30", to switch on the "Add to calendar" button
+    time: { ms: "Ahad · masa & tempat akan dimaklumkan", en: "Sundays · time & venue to be confirmed" },
     venue: "", address: "",
-    fee: 80, feeNote: { ms: "4 sesi", en: "4 sessions" },
+    fee: 80, feeNote: { ms: "3 sesi, termasuk buku", en: "3 sessions, book included" },
     arabic: "تنوير القلوب"
   },
   {
@@ -169,3 +173,102 @@ const WHY = [
   { icon: "award",    ms: ["Sijil Penyertaan", "Sijil Penyertaan akan diberikan setiap kali selesai sebuah marhalah, InsyaAllah."],
                       en: ["Certificate of Participation", "A certificate is awarded on completing each marhalah (stage), InsyaAllah."] }
 ];
+
+/* Fawaid (weekly reflections). Each series is a set of posters; the first image is the cover.
+   Add new posters to assets/fawaid/ and a new entry at the TOP of this list. */
+const FAWAID = [
+  {
+    title: { ms: "Jadual Surah Bacaan al-Habib 'Abdullah al-Haddad dalam Solat", en: "Surahs Recited by al-Habib 'Abdullah al-Haddad in Prayer" },
+    source: { ms: "Petikan fawaid: Bidayah al-Hidayah · Masjid Hajjah Fatimah", en: "From the Bidayah al-Hidayah class · Masjid Hajjah Fatimah" },
+    date: "2026-10-02", subject: "tasawwuf",
+    summary: { ms: "Surah-surah yang dibaca oleh al-Habib 'Abdullah al-Haddad dalam solat Subuh, Maghrib dan Isyak bagi setiap hari dalam seminggu.",
+               en: "The surahs al-Habib 'Abdullah al-Haddad recited in the Subuh, Maghrib and Isyak prayers for each day of the week." },
+    images: ["assets/fawaid/surah-haddad-1.jpg", "assets/fawaid/surah-haddad-2.jpg"]
+  },
+  {
+    title: { ms: "Syariat, Tarekat & Hakikat", en: "Shari'ah, Tariqah & Haqiqah" },
+    source: { ms: "Kuliah Fiqh: Kitab al-Risalah al-Jami'ah · Masjid Malabar", en: "Fiqh class: al-Risalah al-Jami'ah · Masjid Malabar" },
+    date: "2026-09-07", subject: "fiqh",
+    summary: { ms: "Syeikh Zainuddin al-Malibari r.h mengumpamakan Syariat sebagai bahtera, Tarekat sebagai lautan dan Hakikat sebagai mutiara yang amat tinggi nilainya.",
+               en: "Syeikh Zainuddin al-Malibari r.h likens the Shari'ah to a ship, the Tariqah to the sea and the Haqiqah to a priceless pearl." },
+    images: ["assets/fawaid/syariat-infografik.jpg", "assets/fawaid/syariat-arab.jpg", "assets/fawaid/syariat-terjemahan.jpg", "assets/fawaid/malabar-cover.jpg"]
+  },
+  {
+    title: { ms: "Perbanyakkan Selawat pada Hari Jumaat", en: "Send Abundant Salawat on Friday" },
+    source: { ms: "Salam Jumaat", en: "Jumu'ah greetings" },
+    date: "", subject: "tasawwuf",
+    summary: { ms: "Hadis riwayat Abu Mas'ud al-Ansari r.a: tiadalah seseorang berselawat ke atas Nabi ﷺ pada hari Jumaat melainkan diperhadapkan kepada Baginda akan selawatnya.",
+               en: "Hadith of Abu Mas'ud al-Ansari r.a: no one sends salawat upon the Prophet ﷺ on Friday except that it is presented to him." },
+    images: ["assets/fawaid/jumaat-hadis-terjemahan.jpg", "assets/fawaid/jumaat-hadis-arab.jpg", "assets/fawaid/jumaat-salam.jpg", "assets/fawaid/jumaat-selawat.jpg"]
+  }
+];
+
+/* Recordings. channel: the YouTube channel link. Each series can link to a playlist. */
+const RECORDINGS = {
+  channel: "",   // TODO: e.g. "https://www.youtube.com/@..."
+  series: [
+    { subject: "tauhid", title: { ms: "Pengajian Asas Ilmu Tauhid", en: "Foundations of Tauhid" },
+      note: { ms: "3 sesi · Kursus Lanjutan Tingkatan 1", en: "3 sessions · Advanced Course Level 1" }, url: "" }
+  ]
+};
+
+/* Testimonials: { name, ms, en }. Shown on the About page once at least one is added. */
+const TESTIMONIALS = [];
+
+/* Photo gallery on the About page */
+const GALLERY = [
+  { src: "assets/community.jpg", ms: "Majlis Khataman Kursus Tanwirul Qulub (Kohort 1 & 2), 19 Sep 2026", en: "Khataman of the Tanwir al-Qulub course (Cohorts 1 & 2), 19 Sep 2026" },
+  { src: "assets/certificates.jpg", ms: "Sijil Penyertaan bagi setiap marhalah", en: "Certificates of Participation for each marhalah" }
+];
+
+/* Frequently asked questions */
+const FAQ = [
+  { q: { ms: "Perlukah saya mendaftar untuk kuliah di masjid?", en: "Do I need to register for the mosque classes?" },
+    a: { ms: "Tidak. Kuliah mingguan dan bulanan di masjid terbuka kepada orang ramai, datang sahaja. Lihat Jadual Kelas untuk hari, masa dan tempat.", en: "No. The weekly and monthly mosque classes are open to the public, just come along. See the Class Schedule for days, times and venues." }, link: "classes.html" },
+  { q: { ms: "Apakah beza kuliah masjid dengan kursus berstruktur?", en: "How are the mosque classes different from the structured courses?" },
+    a: { ms: "Kursus berstruktur mengikut silibus 14 marhalah, disertakan buku dan nota, rakaman untuk ulang kaji dan sijil penyertaan. Kursus memerlukan pendaftaran dan yuran.", en: "Structured courses follow the 14-stage syllabus and come with a book and notes, recordings for revision and a certificate. They need registration and a fee." }, link: "syllabus.html" },
+  { q: { ms: "Siapa boleh menyertai kursus?", en: "Who can join a course?" },
+    a: { ms: "Terbuka kepada muslimin dan muslimat. Jika tidak pasti marhalah mana untuk bermula, hubungi kami melalui WhatsApp.", en: "Open to both men and women. If you're unsure which stage to start from, contact us on WhatsApp." } },
+  { q: { ms: "Bagaimana cara mendaftar dan membayar?", en: "How do I register and pay?" },
+    a: { ms: "Pergi ke halaman Kursus, tekan \"Daftar Sekarang\" dan isi borang. Imbas kod QR PayNow (jumlah dan rujukan sudah dimasukkan), kemudian muat naik tangkapan skrin halaman 'Successful' daripada aplikasi bank anda.", en: "Go to the Courses page, tap \"Register Now\" and fill in the form. Scan the PayNow QR code (amount and reference already filled in), then upload a screenshot of the 'Successful' page from your banking app." }, link: "courses.html" },
+  { q: { ms: "Mengapa pendaftaran saya \"Tidak Berjaya\"?", en: "Why does it say my registration was \"Unsuccessful\"?" },
+    a: { ms: "Tangkapan skrin mesti menunjukkan halaman 'Successful' daripada aplikasi bank dengan jumlah yang betul, nombor rujukan TMF anda dan tarikh hari ini. Bayar dengan mengimbas kod QR dalam borang supaya rujukan dimasukkan, dan jangan potong maklumat tersebut. Jika masih tidak berjaya, WhatsApp kami tangkapan skrin anda.", en: "The screenshot must show your bank's 'Successful' page with the right amount, your TMF reference and today's date. Pay by scanning the QR code in the form so the reference is included, and don't crop these details. If it still fails, WhatsApp us your screenshot." } },
+  { q: { ms: "Saya tersilap bayar atau terbayar dua kali.", en: "I paid the wrong amount or paid twice." },
+    a: { ms: "Jangan risau. Hubungi kami melalui WhatsApp bersama tangkapan skrin bayaran, dan kami akan menguruskannya.", en: "Don't worry. Contact us on WhatsApp with your payment screenshot and we'll sort it out." } },
+  { q: { ms: "Bagaimana saya menyertai grup WhatsApp kursus?", en: "How do I join the course WhatsApp group?" },
+    a: { ms: "Selepas pendaftaran berjaya, butang \"Sertai Grup WhatsApp\" dipaparkan di skrin dan juga dalam e-mel \"Pendaftaran Berjaya\". Semak folder Spam jika e-mel tidak diterima.", en: "After a successful registration, a \"Join WhatsApp Group\" button appears on screen and in the \"Registration Successful\" email. Check your Spam folder if the email hasn't arrived." } },
+  { q: { ms: "Adakah rakaman kelas disediakan?", en: "Are classes recorded?" },
+    a: { ms: "Ya. Rakaman pengajian kursus disediakan untuk ulang kaji.", en: "Yes. Course sessions are recorded for revision." }, link: "rakaman.html" },
+  { q: { ms: "Adakah sijil diberikan?", en: "Is a certificate given?" },
+    a: { ms: "Sijil Penyertaan diberikan setiap kali selesai sebuah marhalah, InsyaAllah.", en: "A Certificate of Participation is given on completing each marhalah, InsyaAllah." } },
+  { q: { ms: "Bagaimana data peribadi saya digunakan?", en: "How is my personal data used?" },
+    a: { ms: "Data anda digunakan hanya untuk menguruskan pendaftaran dan kursus anda. Baca Notis Privasi kami untuk butiran.", en: "Your data is only used to manage your registration and courses. See our Privacy Notice for details." }, link: "privacy.html" }
+];
+
+/* Privacy notice (PDPA), shown on privacy.html */
+const PRIVACY = {
+  updated: "2026-10-24",
+  sections: [
+    { h: { ms: "Siapa kami", en: "Who we are" },
+      p: { ms: "TM Fouzy Education Centre (\"TMFEC\", \"kami\") ialah pusat pengajian Islam di Singapura. Notis ini menerangkan bagaimana kami mengumpul, menggunakan dan melindungi data peribadi anda selaras dengan Akta Perlindungan Data Peribadi 2012 (PDPA) Singapura.",
+           en: "TM Fouzy Education Centre (\"TMFEC\", \"we\") is an Islamic learning centre in Singapore. This notice explains how we collect, use and protect your personal data in line with Singapore's Personal Data Protection Act 2012 (PDPA)." } },
+    { h: { ms: "Data yang kami kumpul", en: "What we collect" },
+      p: { ms: "Apabila anda mendaftar kursus: nama penuh, nombor telefon (WhatsApp), alamat e-mel, jantina, sama ada anda pernah menyertai kursus TMFEC, nama pada akaun bank pembayar, tangkapan skrin bayaran, nombor rujukan pendaftaran, serta catatan yang anda berikan. Laman web ini tidak menggunakan kuki pengiklanan atau penjejakan.",
+           en: "When you register for a course: full name, phone number (WhatsApp), email address, gender, whether you have joined a TMFEC course before, the name on the paying bank account, your payment screenshot, your registration reference, and any notes you give us. This website does not use advertising or tracking cookies." } },
+    { h: { ms: "Tujuan penggunaan", en: "Why we use it" },
+      p: { ms: "Untuk memproses dan mengesahkan pendaftaran dan bayaran anda; menghubungi anda mengenai kursus (termasuk e-mel pengesahan dan peringatan kelas); menjemput anda ke grup WhatsApp kursus; mengeluarkan sijil penyertaan; dan menyimpan rekod pengajian anda supaya kami dapat memaklumkan marhalah seterusnya.",
+           en: "To process and verify your registration and payment; contact you about your course (including confirmation emails and class reminders); invite you to the course WhatsApp group; issue certificates; and keep a record of your studies so we can let you know about the next stage." } },
+    { h: { ms: "Penyimpanan & keselamatan", en: "Storage & security" },
+      p: { ms: "Data disimpan dalam Google Sheets dan Google Drive TMFEC, yang hanya boleh diakses oleh pentadbir TMFEC. Kami menyimpan data selagi perlu untuk tujuan di atas dan rekod pentadbiran, kemudian memadamnya.",
+           en: "Your data is stored in TMFEC's Google Sheets and Google Drive, accessible only to TMFEC administrators. We keep it for as long as needed for the purposes above and our records, and then delete it." } },
+    { h: { ms: "Pendedahan", en: "Disclosure" },
+      p: { ms: "Kami tidak menjual atau menyewakan data anda, dan tidak mendedahkannya kepada pihak lain kecuali dengan persetujuan anda atau jika dikehendaki oleh undang-undang.",
+           en: "We do not sell or rent your data, and do not disclose it to others except with your consent or where required by law." } },
+    { h: { ms: "Hak anda", en: "Your rights" },
+      p: { ms: "Anda boleh meminta untuk melihat atau membetulkan data anda, atau menarik balik persetujuan (contohnya berhenti menerima makluman). Menarik balik persetujuan mungkin bermakna kami tidak dapat meneruskan pendaftaran anda.",
+           en: "You may ask to access or correct your data, or withdraw your consent (for example, to stop receiving updates). Withdrawing consent may mean we cannot continue your registration." } },
+    { h: { ms: "Hubungi kami", en: "Contact us" },
+      p: { ms: "Untuk sebarang pertanyaan mengenai data peribadi anda, hubungi TMFEC melalui WhatsApp di +65 8455 9430.",
+           en: "For any questions about your personal data, contact TMFEC on WhatsApp at +65 8455 9430." } }
+  ]
+};

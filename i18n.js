@@ -2,6 +2,14 @@
 const I18N = {
   ms: {
     "nav.home": "Utama", "nav.about": "Tentang Kami", "nav.syllabus": "Silibus", "nav.classes": "Jadual Kelas", "nav.courses": "Kursus", "nav.register": "Daftar",
+    "nav.fawaid": "Fawaid", "nav.rakaman": "Rakaman", "nav.faq": "Soalan Lazim", "nav.privacy": "Notis Privasi",
+    "contact.waLabel": "Tanya kami di WhatsApp", "contact.waText": "Assalamualaikum TMFEC, saya ingin bertanya tentang ",
+    "fawaid.eyebrow": "Fawaid", "fawaid.title": "Fawaid Mingguan", "fawaid.sub": "Mutiara ilmu daripada kuliah-kuliah kami. Tekan gambar untuk melihat dengan lebih jelas.", "fawaid.images": "gambar",
+    "rec.eyebrow": "Rakaman", "rec.title": "Rakaman Pengajian", "rec.sub": "Ulang kaji pengajian pada bila-bila masa, supaya ilmu yang dipelajari tidak terhenti selepas kelas.",
+    "rec.watch": "Tonton", "rec.soon": "Pautan akan datang", "rec.channel": "Saluran YouTube TMFEC",
+    "faq.eyebrow": "Bantuan", "faq.title": "Soalan Lazim", "faq.sub": "Jawapan kepada soalan yang sering ditanya. Tidak jumpa jawapan anda? Tanya kami di WhatsApp.", "faq.more": "Lihat lagi →",
+    "privacy.eyebrow": "PDPA", "privacy.title": "Notis Privasi", "privacy.updated": "Dikemas kini",
+    "about.gallery": "Galeri", "about.testimonials": "Kata Mereka",
 
     "hero.eyebrow": "Pusat Pengajian Islam · Singapura",
     "hero.lead": "Meneruskan legasi keilmuan al-Marhum Ustaz Tengku Mohamad Fouzy melalui pengajian Ilmu Tauhid, Fiqh dan Tasawwuf yang tersusun, menurut manhaj Ahlussunnah wal Jama'ah.",
@@ -101,7 +109,8 @@ const I18N = {
       addCal: "Tambah ke kalendar",
       prior: "Pernah menyertai kursus TMFEC?", yes: "Ya", no: "Belum",
       notes: "Catatan (pilihan)", notesPh: "Soalan atau maklumat tambahan",
-      consent: "Saya bersetuju TMFEC menghubungi saya mengenai kursus ini menggunakan maklumat di atas.",
+      consent: "Saya bersetuju TMFEC mengumpul dan menggunakan maklumat di atas untuk pendaftaran dan kursus ini, seperti dalam <a href=\"privacy.html\" target=\"_blank\">Notis Privasi</a>.",
+      paySafety: (num, name) => `Keselamatan: bayar hanya melalui borang di tmfec.github.io. Pastikan nombor PayNow ialah ${num}${name ? ` dan nama penerima dalam aplikasi bank anda ialah ${name}` : ""}. Jika ragu, WhatsApp kami dahulu.`,
       submit: "Hantar untuk Semakan", sending: "Menghantar…", close: "Tutup",
       required: "Sila lengkapkan semua ruangan yang wajib.", badPhone: "Sila masukkan nombor telefon yang sah.",
       okTitle: "Menunggu pengesahan bayaran", okBody: id => `Borang anda telah dihantar dengan nombor rujukan ${id}.`,
@@ -112,6 +121,14 @@ const I18N = {
 
   en: {
     "nav.home": "Home", "nav.about": "About", "nav.syllabus": "Syllabus", "nav.classes": "Classes", "nav.courses": "Courses", "nav.register": "Register",
+    "nav.fawaid": "Fawaid", "nav.rakaman": "Recordings", "nav.faq": "FAQ", "nav.privacy": "Privacy Notice",
+    "contact.waLabel": "Ask us on WhatsApp", "contact.waText": "Assalamualaikum TMFEC, I'd like to ask about ",
+    "fawaid.eyebrow": "Fawaid", "fawaid.title": "Weekly Fawaid", "fawaid.sub": "Gems of knowledge from our classes. Tap a picture to view it larger.", "fawaid.images": "images",
+    "rec.eyebrow": "Recordings", "rec.title": "Class Recordings", "rec.sub": "Revise lessons any time, so learning doesn't stop when the class ends.",
+    "rec.watch": "Watch", "rec.soon": "Link coming soon", "rec.channel": "TMFEC YouTube channel",
+    "faq.eyebrow": "Help", "faq.title": "Frequently Asked Questions", "faq.sub": "Answers to common questions. Can't find yours? Ask us on WhatsApp.", "faq.more": "See more →",
+    "privacy.eyebrow": "PDPA", "privacy.title": "Privacy Notice", "privacy.updated": "Last updated",
+    "about.gallery": "Gallery", "about.testimonials": "What Students Say",
 
     "hero.eyebrow": "Islamic Learning Centre · Singapore",
     "hero.lead": "Continuing the scholarly legacy of the late Ustaz Tengku Mohamad Fouzy through structured study of Tauhid, Fiqh and Tasawwuf, upon the way of Ahlussunnah wal Jama'ah.",
@@ -211,7 +228,8 @@ const I18N = {
       addCal: "Add to calendar",
       prior: "Joined a TMFEC course before?", yes: "Yes", no: "Not yet",
       notes: "Notes (optional)", notesPh: "Questions or anything we should know",
-      consent: "I agree to TMFEC contacting me about this course using the details above.",
+      consent: "I agree to TMFEC collecting and using the details above for my registration and this course, as described in the <a href=\"privacy.html\" target=\"_blank\">Privacy Notice</a>.",
+      paySafety: (num, name) => `Safety: only pay through the form on tmfec.github.io. Make sure the PayNow number is ${num}${name ? ` and the receiver name in your banking app is ${name}` : ""}. If in doubt, WhatsApp us first.`,
       submit: "Submit for Verification", sending: "Sending…", close: "Close",
       required: "Please fill in all required fields.", badPhone: "Please enter a valid phone number.",
       okTitle: "Awaiting payment check", okBody: id => `Your form was submitted with reference number ${id}.`,

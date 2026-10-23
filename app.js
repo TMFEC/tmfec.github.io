@@ -25,8 +25,13 @@ const PAGES = [
   ["about.html", "nav.about", "about"],
   ["syllabus.html", "nav.syllabus", "syllabus"],
   ["classes.html", "nav.classes", "classes"],
-  ["courses.html", "nav.courses", "courses"]
+  ["courses.html", "nav.courses", "courses"],
+  ["fawaid.html", "nav.fawaid", "fawaid"],
+  ["rakaman.html", "nav.rakaman", "rakaman"],
+  ["faq.html", "nav.faq", "faq"]
 ];
+const waContact = (text = "") => "https://wa.me/65" + String(CONFIG.contactWhatsApp || "").replace(/\D/g, "").slice(-8) +
+  (text ? "?text=" + encodeURIComponent(text) : "");
 const WEEK_ORDER = [1, 2, 3, 4, 5, 6, 0]; // Monday first
 // Sent with each registration. The Sheet script rejects anything older than its MIN_CLIENT,
 // so an old saved copy of the page (without the screenshot check) can't register anyone.
@@ -104,9 +109,19 @@ function renderChrome() {
         <img src="assets/logo.jpg" alt="" class="brand-logo">
         <div><p class="brand-name">TM Fouzy Education Centre</p><p class="muted">${t("footer.tag")}</p></div>
       </div>
-      <nav class="footer-nav">${PAGES.map(([href, key]) => `<a href="${href}">${t(key)}</a>`).join("")}</nav>
+      <nav class="footer-nav">${PAGES.map(([href, key]) => `<a href="${href}">${t(key)}</a>`).join("")}<a href="privacy.html">${t("nav.privacy")}</a></nav>
+      ${CONFIG.contactWhatsApp ? `<a class="footer-contact" href="${waContact(t("contact.waText"))}" target="_blank" rel="noopener">${ICONS.whatsapp}+65 ${String(CONFIG.contactWhatsApp).replace(/(\d{4})(\d{4})/, "$1 $2")}</a>` : ""}
       <p class="muted small">© ${new Date().getFullYear()} TMFEC. ${t("footer.rights")}</p>
     </div>`;
+
+  // floating "ask us on WhatsApp" button on every page
+  if (CONFIG.contactWhatsApp) {
+    let fab = $("#waFab");
+    if (!fab) { fab = document.createElement("a"); fab.id = "waFab"; fab.className = "wa-fab"; fab.target = "_blank"; fab.rel = "noopener"; document.body.appendChild(fab); }
+    fab.href = waContact(t("contact.waText"));
+    fab.setAttribute("aria-label", t("contact.waLabel"));
+    fab.innerHTML = `${ICONS.whatsapp}<span>${t("contact.waLabel")}</span>`;
+  }
 }
 
 function applyStatic() {
@@ -310,9 +325,109 @@ function renderSocial() {
   const iconFor = { whatsappCommunity: "whatsapp", instagram: "instagram", facebook: "facebook", youtube: "youtube", email: "mail" };
   const links = order.filter(k => CONFIG[k]);
   $("#contact .sub").textContent = links.length ? t("contact.sub") : t("contact.soon");
-  box.innerHTML = links.length
-    ? links.map(k => `<a href="${k === "email" ? "mailto:" + CONFIG[k] : CONFIG[k]}" target="_blank" rel="noopener" class="${k === "whatsappCommunity" ? "primary" : ""}">${ICONS[iconFor[k]]}${t("social")[k]}</a>`).join("")
-    : `<a href="classes.html" class="primary">${ICONS.calendar}${t("hero.cta1")}</a>`;
+  const contact = CONFIG.contactWhatsApp
+    ? `<a href="${waContact(t("contact.waText"))}" target="_blank" rel="noopener" class="primary">${ICONS.whatsapp}${t("contact.waLabel")}</a>` : "";
+  box.innerHTML = contact + (links.length
+    ? links.map(k => `<a href="${k === "email" ? "mailto:" + CONFIG[k] : CONFIG[k]}" target="_blank" rel="noopener">${ICONS[iconFor[k]]}${t("social")[k]}</a>`).join("")
+    : `<a href="classes.html">${ICONS.calendar}${t("hero.cta1")}</a>`);
+}
+
+/* ---------- Fawaid, Rakaman, FAQ, Privacy, About gallery ---------- */
+
+function renderFawaid() {
+  const box = $("#fawaidList");
+  if (!box) return;
+  box.innerHTML = FAWAID.map((s, i) => {
+    const subj = SUBJECTS[s.subject];
+    return `<article class="fawaid">
+      <button type="button" class="fawaid-cover" data-gallery="${i}" data-index="0" aria-label="${esc(L(s.title))}">
+        <img src="${s.images[0]}" alt="${esc(L(s.title))}" loading="lazy">
+        ${s.images.length > 1 ? `<span class="fawaid-count">${s.images.length} ${t("fawaid.images")}</span>` : ""}
+      </button>
+      <div class="fawaid-body">
+        ${subj ? `<span class="tag" style="--sc:${subj.color}">${subj[lang]}</span>` : ""}
+        <h3>${esc(L(s.title))}</h3>
+        <p class="fawaid-src">${esc(L(s.source))}${s.date ? ` · ${fmtDate(parseDate(s.date))}` : ""}</p>
+        <p>${esc(L(s.summary))}</p>
+        <div class="fawaid-thumbs">${s.images.map((src, j) => `<button type="button" data-gallery="${i}" data-index="${j}"><img src="${src}" alt="" loading="lazy"></button>`).join("")}</div>
+      </div>
+    </article>`;
+  }).join("");
+}
+
+function renderRecordings() {
+  const box = $("#recList");
+  if (!box) return;
+  box.innerHTML = RECORDINGS.series.map(r => {
+    const s = SUBJECTS[r.subject];
+    const url = r.url || RECORDINGS.channel;
+    return `<article class="rec" style="--sc:${s.color}">
+      <div class="rec-icon">${ICONS.video}</div>
+      <div class="rec-body">
+        <span class="tag" style="--sc:${s.color}">${s[lang]}</span>
+        <h3>${esc(L(r.title))}</h3>
+        <p class="muted">${esc(L(r.note))}</p>
+      </div>
+      ${url ? `<a class="btn btn-primary btn-sm" href="${esc(url)}" target="_blank" rel="noopener">${ICONS.youtube}${t("rec.watch")}</a>`
+            : `<span class="btn btn-ghost btn-sm">${t("rec.soon")}</span>`}
+    </article>`;
+  }).join("");
+  const ch = $("#recChannel");
+  if (ch) ch.innerHTML = RECORDINGS.channel
+    ? `<a class="btn btn-outline" href="${esc(RECORDINGS.channel)}" target="_blank" rel="noopener">${ICONS.youtube}${t("rec.channel")}</a>` : "";
+}
+
+function renderFaq() {
+  const box = $("#faqList");
+  if (!box) return;
+  box.innerHTML = FAQ.map(f => `<details class="faq">
+      <summary>${esc(L(f.q))}</summary>
+      <div class="faq-a"><p>${esc(L(f.a))}</p>${f.link ? `<a class="more-link" href="${f.link}">${t("faq.more")}</a>` : ""}</div>
+    </details>`).join("");
+}
+
+function renderPrivacy() {
+  const box = $("#privacyBody");
+  if (!box) return;
+  box.innerHTML = `<p class="muted small">${t("privacy.updated")}: ${fmtDate(parseDate(PRIVACY.updated))}</p>` +
+    PRIVACY.sections.map(s => `<h2>${esc(L(s.h))}</h2><p>${esc(L(s.p))}</p>`).join("");
+}
+
+function renderAboutExtras() {
+  const g = $("#galleryList");
+  if (g) g.innerHTML = GALLERY.map((p, i) => `<figure class="gallery-item">
+      <button type="button" data-photo="${i}"><img src="${p.src}" alt="${esc(L(p))}" loading="lazy"></button>
+      <figcaption>${esc(L(p))}</figcaption></figure>`).join("");
+  const tbox = $("#testimonialSection");
+  if (tbox) {
+    tbox.hidden = !TESTIMONIALS.length;
+    $("#testimonialList").innerHTML = TESTIMONIALS.map(x => `<blockquote class="testi"><p>“${esc(L(x))}”</p><cite>— ${esc(x.name)}</cite></blockquote>`).join("");
+  }
+}
+
+/* simple full-screen image viewer for Fawaid posters and gallery photos */
+let lbImages = [], lbIndex = 0;
+function openLightbox(images, index) {
+  lbImages = images; lbIndex = index;
+  let lb = $("#lightbox");
+  if (!lb) {
+    lb = document.createElement("dialog");
+    lb.id = "lightbox"; lb.className = "lightbox";
+    lb.innerHTML = `<button type="button" class="lb-close" data-lb="close" aria-label="Close">×</button>
+      <button type="button" class="lb-nav lb-prev" data-lb="prev" aria-label="Previous">‹</button>
+      <img alt=""><button type="button" class="lb-nav lb-next" data-lb="next" aria-label="Next">›</button>
+      <p class="lb-count"></p>`;
+    document.body.appendChild(lb);
+    lb.addEventListener("click", e => { if (e.target === lb) lb.close(); });
+  }
+  showLightbox();
+  lb.showModal();
+}
+function showLightbox() {
+  const lb = $("#lightbox");
+  lb.querySelector("img").src = lbImages[lbIndex];
+  lb.querySelector(".lb-count").textContent = lbImages.length > 1 ? `${lbIndex + 1} / ${lbImages.length}` : "";
+  lb.querySelectorAll(".lb-nav").forEach(b => b.hidden = lbImages.length < 2);
 }
 
 /* ---------- registration form ---------- */
@@ -435,6 +550,7 @@ function renderPayBlock() {
         <span class="upload-name" id="shotName"></span>
       </label>
       <p class="muted small pay-note">${f.payRequired}</p>
+      <p class="pay-safety">⚠ ${esc(f.paySafety(p.proxy, p.receiverName))}</p>
     </div>`;
 }
 
@@ -664,6 +780,11 @@ function renderAll() {
   renderMarhalah();
   renderWhy();
   renderSocial();
+  renderFawaid();
+  renderRecordings();
+  renderFaq();
+  renderPrivacy();
+  renderAboutExtras();
 }
 
 document.addEventListener("click", e => {
@@ -681,6 +802,18 @@ document.addEventListener("click", e => {
   if (e.target.closest("[data-close]")) { $("#regDialog")?.close(); return; }
   if (e.target.closest("[data-retry]")) { retryRegistration(); return; }
 
+  const gal = e.target.closest("[data-gallery]");
+  if (gal) { openLightbox(FAWAID[+gal.dataset.gallery].images, +gal.dataset.index); return; }
+  const photo = e.target.closest("[data-photo]");
+  if (photo) { openLightbox(GALLERY.map(p => p.src), +photo.dataset.photo); return; }
+  const lbBtn = e.target.closest("[data-lb]");
+  if (lbBtn) {
+    const a = lbBtn.dataset.lb;
+    if (a === "close") $("#lightbox").close();
+    else { lbIndex = (lbIndex + (a === "next" ? 1 : -1) + lbImages.length) % lbImages.length; showLightbox(); }
+    return;
+  }
+
   const tabBtn = e.target.closest("#courseTabs button");
   if (tabBtn) { courseTab = tabBtn.dataset.tab; renderCourses(); return; }
 
@@ -688,6 +821,14 @@ document.addEventListener("click", e => {
   const nav = $("#mainNav");
   if (menuBtn) { menuBtn.setAttribute("aria-expanded", nav.classList.toggle("open")); return; }
   if (e.target.closest("#mainNav a")) nav.classList.remove("open");
+});
+
+document.addEventListener("keydown", e => {
+  if (!$("#lightbox")?.open || lbImages.length < 2) return;
+  if (e.key === "ArrowRight" || e.key === "ArrowLeft") {
+    lbIndex = (lbIndex + (e.key === "ArrowRight" ? 1 : -1) + lbImages.length) % lbImages.length;
+    showLightbox();
+  }
 });
 
 document.addEventListener("submit", e => {
