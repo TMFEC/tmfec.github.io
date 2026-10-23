@@ -62,7 +62,8 @@ const CLASSES = [
     subject: "tasawwuf", day: 2, slot: "maghrib", frequency: "weekly",
     title: { ms: "Kuliah Ilmu Tasawwuf", en: "Tasawwuf Lecture" },
     kitab: { ms: "Kitab Siyarus Salikin (Juz 4) — Syeikh Abdul Samad al-Palimbani", en: "Siyar al-Salikin (Vol. 4) — Syeikh Abdul Samad al-Palimbani" },
-    venue: "Masjid Mydin", address: "67 Jalan Lapang, Singapore 419007"
+    venue: "Masjid Mydin", address: "67 Jalan Lapang, Singapore 419007",
+    recording: "https://www.youtube.com/@MasjidMydin"
   },
   {
     subject: "tasawwuf", day: 2, slot: "isyak", frequency: "weekly",
@@ -215,6 +216,9 @@ const RECORDINGS = {
     { subject: "fiqh", title: { ms: "Kitab al-Risalah al-Jami'ah", en: "Al-Risalah al-Jami'ah" },
       note: { ms: "Kuliah Isnin · saluran YouTube Masjid Malabar", en: "Monday class · Masjid Malabar YouTube channel" },
       url: "https://www.youtube.com/@masjidmalabar" },
+    { subject: "tasawwuf", title: { ms: "Kitab Siyarus Salikin (Juz 4)", en: "Siyar al-Salikin (Vol. 4)" },
+      note: { ms: "Kuliah Selasa · saluran YouTube Masjid Mydin", en: "Tuesday class · Masjid Mydin YouTube channel" },
+      url: "https://www.youtube.com/@MasjidMydin" },
     { subject: "tasawwuf", title: { ms: "Kitab Kurnia Rabbani Limpahan Rahmani", en: "Kurnia Rabbani Limpahan Rahmani" },
       note: { ms: "Kuliah Selasa · saluran YouTube Masjid Kassim", en: "Tuesday class · Masjid Kassim YouTube channel" },
       url: "https://www.youtube.com/@MasjidKassim" },
