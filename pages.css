@@ -262,3 +262,9 @@ a.pillar { text-decoration: none; color: inherit; display: block; }
 .lb-nav { position: fixed; top: 50%; transform: translateY(-50%); background: rgba(255, 255, 255, .15); border: 0; color: #fff; font-size: 2.4rem; width: 52px; height: 52px; border-radius: 50%; cursor: pointer; }
 .lb-prev { left: 14px; } .lb-next { right: 14px; }
 .lb-count { position: fixed; bottom: 14px; left: 0; right: 0; text-align: center; color: #fff; margin: 0; font-size: .9rem; }
+
+.class-actions { display: flex; flex-direction: column; gap: 8px; align-items: stretch; }
+.btn-ghost-link { background: #fff; border-color: var(--line); color: #b3261e; }
+.btn-ghost-link:hover { border-color: #b3261e; }
+.btn-ghost-link svg { width: 18px; height: 18px; }
+@media (max-width: 980px) { .class-actions { flex-direction: row; flex-wrap: wrap; } }

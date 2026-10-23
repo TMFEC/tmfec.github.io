@@ -17,7 +17,7 @@ const CONFIG = {
   //   proxyType: "uen" (business account) or "mobile" (personal account)
   //   proxy:     the UEN, e.g. "T12AB3456C", or the mobile number, e.g. "91234567"
   //   receiverName: the name the student's bank app shows for this PayNow number (shown as a safety check)
-  paynow: { proxyType: "mobile", proxy: "84559430", name: "TM Fouzy Education Centre", receiverName: "", qrImage: "" },
+  paynow: { proxyType: "mobile", proxy: "84559430", name: "TM Fouzy Education Centre", receiverName: "Muhsin Abdat", qrImage: "" },
   // WhatsApp number for enquiries (floating button on every page). 8-digit Singapore number.
   contactWhatsApp: "84559430",
   // Social links. Buttons with an empty link are hidden.
@@ -49,37 +49,40 @@ const CLASSES = [
     subject: "fiqh", day: 1, slot: "maghrib", frequency: "weekly",
     title: { ms: "Kuliah Ilmu Fiqh", en: "Fiqh Lecture" },
     kitab: { ms: "Kitab al-Risalah al-Jami'ah — al-Habib Ahmad Zain al-Habsyi", en: "Al-Risalah al-Jami'ah — al-Habib Ahmad Zain al-Habsyi" },
-    venue: "Masjid Malabar", address: "471 Victoria St, Singapore 198370"
+    venue: "Masjid Malabar", address: "471 Victoria St, Singapore 198370",
+    recording: "https://www.youtube.com/@masjidmalabar"
   },
   {
     subject: "tasawwuf", day: 2, slot: "pagi", frequency: "weekly",
     title: { ms: "Kuliah Ilmu Tasawwuf", en: "Tasawwuf Lecture" },
     kitab: { ms: "Kitab Risalah al-Mu'awanah — Imam al-Haddad", en: "Risalat al-Mu'awanah — Imam al-Haddad" },
-    venue: "Masjid Istiqamah", address: ""
+    venue: "Masjid Al-Istiqamah", address: "2 Serangoon North Ave 2, Singapore 555876"
   },
   {
     subject: "tasawwuf", day: 2, slot: "maghrib", frequency: "weekly",
     title: { ms: "Kuliah Ilmu Tasawwuf", en: "Tasawwuf Lecture" },
     kitab: { ms: "Kitab Siyarus Salikin (Juz 4) — Syeikh Abdul Samad al-Palimbani", en: "Siyar al-Salikin (Vol. 4) — Syeikh Abdul Samad al-Palimbani" },
-    venue: "Masjid Mydin", address: ""
+    venue: "Masjid Mydin", address: "67 Jalan Lapang, Singapore 419007"
   },
   {
     subject: "tasawwuf", day: 2, slot: "isyak", frequency: "weekly",
     title: { ms: "Kuliah Ilmu Tasawwuf", en: "Tasawwuf Lecture" },
     kitab: { ms: "Kitab Kurnia Rabbani Limpahan Rahmani", en: "Kurnia Rabbani Limpahan Rahmani" },
-    venue: "Masjid Kassim", address: ""
+    venue: "Masjid Kassim", address: "450 Changi Rd, Singapore 419877",
+    recording: "https://www.youtube.com/@MasjidKassim"
   },
   {
     subject: "tasawwuf", day: 6, slot: "maghrib", frequency: "weekly",
     title: { ms: "Kuliah Ilmu Tasawwuf", en: "Tasawwuf Lecture" },
     kitab: { ms: "Kitab Bidayah al-Hidayah — Imam al-Ghazali", en: "Bidayah al-Hidayah — Imam al-Ghazali" },
-    venue: "Masjid Hajjah Fatimah", address: "4001 Beach Rd, Singapore 199584"
+    venue: "Masjid Hajjah Fatimah", address: "4001 Beach Rd, Singapore 199584",
+    recording: "https://www.youtube.com/playlist?list=PLirHDhLxYck45rszF3K5VVur8JN-PZF12"
   },
   {
     subject: "tauhid", day: 5, slot: "isyak", frequency: "monthly", nth: 3,
     title: { ms: "Kuliah Bulanan Ilmu Tauhid", en: "Monthly Tauhid Lecture" },
     kitab: { ms: "Kitab Qawa'id al-'Aqa'id — Imam al-Ghazali", en: "Qawa'id al-'Aqa'id — Imam al-Ghazali" },
-    venue: "Masjid Al-Abdul Razak", address: ""
+    venue: "Masjid Al-Abdul Razak", address: "30 Jalan Ismail, Singapore 419285"
   }
 ];
 
@@ -97,8 +100,8 @@ const COURSES = [
             en: "The continuation of Tanwir al-Qulub by Syeikh Muhammad Amin al-Kurdi, for students who have completed the chapter on Divinity." },
     dates: ["2026-11-15", "2026-11-22", "2026-11-29"],
     // TODO: add the class time, e.g. start: "15:00", end: "17:30", to switch on the "Add to calendar" button
-    time: { ms: "Ahad · masa & tempat akan dimaklumkan", en: "Sundays · time & venue to be confirmed" },
-    venue: "", address: "",
+    time: { ms: "Ahad · masa akan dimaklumkan", en: "Sundays · time to be confirmed" },
+    venue: "Masjid Abdul Aleem Siddique", address: "90 Lorong K Telok Kurau, Singapore 425723",
     fee: 80, feeNote: { ms: "3 sesi, termasuk buku", en: "3 sessions, book included" },
     arabic: "تنوير القلوب"
   },
@@ -207,6 +210,15 @@ const FAWAID = [
 const RECORDINGS = {
   channel: "",   // TODO: e.g. "https://www.youtube.com/@..."
   series: [
+    { subject: "tasawwuf", title: { ms: "Kitab Bidayah al-Hidayah — Imam al-Ghazali", en: "Bidayah al-Hidayah — Imam al-Ghazali" },
+      note: { ms: "Kuliah Sabtu · Masjid Hajjah Fatimah · senarai main YouTube", en: "Saturday class · Masjid Hajjah Fatimah · YouTube playlist" },
+      url: "https://www.youtube.com/playlist?list=PLirHDhLxYck45rszF3K5VVur8JN-PZF12" },
+    { subject: "fiqh", title: { ms: "Kitab al-Risalah al-Jami'ah", en: "Al-Risalah al-Jami'ah" },
+      note: { ms: "Kuliah Isnin · saluran YouTube Masjid Malabar", en: "Monday class · Masjid Malabar YouTube channel" },
+      url: "https://www.youtube.com/@masjidmalabar" },
+    { subject: "tasawwuf", title: { ms: "Kitab Kurnia Rabbani Limpahan Rahmani", en: "Kurnia Rabbani Limpahan Rahmani" },
+      note: { ms: "Kuliah Selasa · saluran YouTube Masjid Kassim", en: "Tuesday class · Masjid Kassim YouTube channel" },
+      url: "https://www.youtube.com/@MasjidKassim" },
     { subject: "tauhid", title: { ms: "Pengajian Asas Ilmu Tauhid", en: "Foundations of Tauhid" },
       note: { ms: "3 sesi · Kursus Lanjutan Tingkatan 1", en: "3 sessions · Advanced Course Level 1" }, url: "" }
   ]

@@ -216,7 +216,10 @@ function renderClassCards() {
             ${next ? `<span>${ICONS.calendar}${t("nextOn")}: ${fmtDate(next, { weekday: "short", day: "numeric", month: "short" })}</span>` : ""}
           </p>
         </div>
-        <a class="btn btn-outline btn-sm" href="${mapsUrl(c.venue, c.address)}" target="_blank" rel="noopener">${t("directions")}</a>
+        <div class="class-actions">
+          <a class="btn btn-outline btn-sm" href="${mapsUrl(c.venue, c.address)}" target="_blank" rel="noopener">${t("directions")}</a>
+          ${c.recording ? `<a class="btn btn-ghost-link btn-sm" href="${esc(c.recording)}" target="_blank" rel="noopener">${ICONS.youtube}${t("rec.watchClass")}</a>` : ""}
+        </div>
       </article>`;
     }).join("");
 }
