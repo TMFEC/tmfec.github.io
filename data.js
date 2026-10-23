@@ -194,7 +194,7 @@ const FAWAID = [
     date: "2026-10-02", subject: "tasawwuf",
     summary: { ms: "Sunnah memanjangkan bacaan Subuh dan Zuhur, meringankan Asar, membaca surah pendek al-Mufassal ketika Maghrib dan pertengahan ketika Isyak; erti al-Mufassal dan pembahagiannya; serta surah-surah yang dibaca oleh al-Habib 'Abdullah al-Haddad bagi setiap hari.",
                en: "The sunnah of long recitation at Subuh and Zuhur, lighter at Asar, short surahs of al-Mufassal at Maghrib and middle ones at Isyak; what al-Mufassal means and its divisions; and the surahs al-Habib 'Abdullah al-Haddad recited each day." },
-    images: ["assets/fawaid/surah-sunnah-bacaan.jpg", "assets/fawaid/surah-mufassal.jpg", "assets/fawaid/surah-haddad-1.jpg", "assets/fawaid/surah-haddad-2.jpg", "assets/fawaid/hajjah-fatimah-cover.jpg"]
+    images: ["assets/fawaid/surah-sunnah-bacaan.jpg", "assets/fawaid/surah-mufassal.jpg", "assets/fawaid/surah-haddad-1.jpg", "assets/fawaid/surah-haddad-2.jpg"]
   },
   {
     title: { ms: "Syariat, Tarekat & Hakikat", en: "Shari'ah, Tariqah & Haqiqah" },
